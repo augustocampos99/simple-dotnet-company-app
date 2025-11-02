@@ -13,6 +13,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+
 // DI Context
 var connectionString = builder.Configuration.GetConnectionString("PostgreSQLConnection");
 builder.Services.AddDbContext<PostgreSQLContext>(options =>
@@ -20,9 +21,13 @@ builder.Services.AddDbContext<PostgreSQLContext>(options =>
 
 // D.I. Repositories
 builder.Services.AddTransient<IRoleRepository, RoleRepository>();
+builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
+builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 
 // D.I. Services
 builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddTransient<ICompanyService, CompanyService>();
+builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 
 
 var app = builder.Build();

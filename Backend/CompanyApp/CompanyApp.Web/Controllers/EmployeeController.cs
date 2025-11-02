@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyApp.Web.Controllers
 {
-    [Route("api/V1/roles")]
+    [Route("api/V1/employees")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
-        private readonly IRoleService _roleService;
+        private readonly IEmployeeService _employeeService;
 
-        public RoleController(IRoleService roleService)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _roleService = roleService;            
+            _employeeService = employeeService;            
         }
 
         [HttpGet]
@@ -38,7 +38,7 @@ namespace CompanyApp.Web.Controllers
                 }
             }
 
-            var result = await this._roleService.FindAll(limit, skip);
+            var result = await this._employeeService.FindAll(limit, skip);
             return Ok(result);
         }
 
@@ -47,7 +47,7 @@ namespace CompanyApp.Web.Controllers
         {
             try 
             {
-                var result = await this._roleService.FindByGuid(guid);
+                var result = await this._employeeService.FindByGuid(guid);
                 return Ok(result);
             }
             catch (NotFoundException ex)
@@ -61,13 +61,13 @@ namespace CompanyApp.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] RoleRequestDTO request)
+        public async Task<IActionResult> Create([FromBody] EmployeeRequestDTO request)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var result = await this._roleService.Create(request);
+                    var result = await this._employeeService.Create(request);
                     return Ok(result);
                 }
                 catch (NotFoundException ex)
@@ -89,13 +89,13 @@ namespace CompanyApp.Web.Controllers
         }
 
         [HttpPut("{guid}")]
-        public async Task<IActionResult> Update([FromBody] RoleRequestDTO request, Guid guid)
+        public async Task<IActionResult> Update([FromBody] EmployeeRequestDTO request, Guid guid)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var result = await this._roleService.Update(guid, request);
+                    var result = await this._employeeService.Update(guid, request);
 
                     if (result == null)
                     {
@@ -126,7 +126,7 @@ namespace CompanyApp.Web.Controllers
         public async Task<IActionResult> Delete(Guid guid)
         {
             try {
-                await this._roleService.Delete(guid);
+                await this._employeeService.Delete(guid);
                 return Ok("ok");
             }
             catch (NotFoundException ex)

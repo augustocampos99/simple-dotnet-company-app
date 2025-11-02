@@ -10,31 +10,30 @@ using System.Threading.Tasks;
 
 namespace CompanyApp.Infra.Repositories
 {
-    public class RoleRepository : GenericRepository<Role>, IRoleRepository
+    public class CompanyRepository : GenericRepository<Company>, ICompanyRepository
     {
         private readonly PostgreSQLContext _context;
 
-        public RoleRepository(PostgreSQLContext context) : base(context)
+        public CompanyRepository(PostgreSQLContext context) : base(context)
         {
             _context = context;
         }
 
-        public async Task<Role?> FindByGuid(Guid guid)
+        public async Task<Company?> FindByGuid(Guid guid)
         {
             return await this._context
-                .Roles
+                .Companies
                 .Where(e => e.Guid == guid)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Role?> FindByName(string name)
+        public async Task<Company?> FindByCnpjOrName(string cnpj, string name)
         {
             return await this._context
-                .Roles
-                .Where(e => e.Name == name)
+                .Companies
+                .Where(e => e.CNPJ == cnpj || e.Name == name)
                 .FirstOrDefaultAsync();
         }
-
 
     }
 }

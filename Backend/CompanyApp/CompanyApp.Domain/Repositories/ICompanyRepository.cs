@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace CompanyApp.Domain.Repositories
 {
-    public interface IRoleRepository : IGenericRepository<Role>
+    public interface ICompanyRepository : IGenericRepository<Company>
     {
-        Task<Role?> FindByGuid(Guid guid);
-        Task<Role?> FindByName(string name);
+        Task<Company?> FindByGuid(Guid guid);
+        Task<Company?> FindByCnpjOrName(string cnpj, string name);
     }
 }

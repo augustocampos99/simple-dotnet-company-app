@@ -40,13 +40,20 @@ namespace CompanyApp.Application.Services
 
         public async Task<Role> Create(RoleRequestDTO request)
         {
+            var existRole = await this.GetRoleByName(request.Name);
+
+            if(existRole != null)
+            {
+                throw new BadRequestException("Role name already exists");
+            }
+
             Role role = new Role { 
                 Name = request.Name,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
 
-            return await this._roleRepository.Update(role);
+            return await this._roleRepository.Create(role);
         }
 
         public async Task<Role> Update(Guid guid, RoleRequestDTO request)
@@ -57,7 +64,14 @@ namespace CompanyApp.Application.Services
             {
                 throw new NotFoundException("Role not found");
             }
-            
+
+            var existRole = await this.GetRoleByName(request.Name);
+
+            if (existRole != null)
+            {
+                throw new BadRequestException("Role name already exists");
+            }
+
             role.Name = request.Name;
             role.CreatedAt = role.CreatedAt.ToUniversalTime();
             role.UpdatedAt = DateTime.UtcNow;
@@ -74,6 +88,13 @@ namespace CompanyApp.Application.Services
             }
 
             await this._roleRepository.Delete(role);
+
+        }
+
+        private async Task<Role> GetRoleByName(string name)
+        {
+            var role = await this._roleRepository.FindByName(name);
+            return role;
 
         }
     }

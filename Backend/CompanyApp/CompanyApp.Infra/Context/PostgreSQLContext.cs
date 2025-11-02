@@ -18,9 +18,14 @@ namespace CompanyApp.Infra.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new RoleMap());
+            modelBuilder.ApplyConfiguration(new CompanyMap());
+            modelBuilder.ApplyConfiguration(new EmployeeMap());
         }
 
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+
 
     }
 }

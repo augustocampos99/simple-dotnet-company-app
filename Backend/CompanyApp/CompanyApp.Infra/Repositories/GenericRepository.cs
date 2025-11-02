@@ -20,7 +20,7 @@ namespace CompanyApp.Infra.Repositories
             _DBSet = _context.Set<T>();
         }
 
-        public async Task<List<T>> FindAll(int take, int skip)
+        public virtual async Task<List<T>> FindAll(int take, int skip)
         {
             return await _DBSet
                 .Take(take)
